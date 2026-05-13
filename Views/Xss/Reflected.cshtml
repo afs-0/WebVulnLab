@@ -1,0 +1,25 @@
+@{
+    ViewData["Title"] = "Reflected XSS Testi";
+}
+
+<h3>Reflected XSS Senaryosu</h3>
+<hr />
+
+<form action="/Xss/Reflected" method="get" class="mb-4">
+    <div class="input-group w-50">
+        <input type="text" name="searchKeyword" class="form-control" placeholder="Sitede ara..." />
+        <button type="submit" class="btn btn-primary">Ara</button>
+    </div>
+</form>
+
+@if (!string.IsNullOrEmpty(ViewBag.Keyword))
+{
+    <div class="alert alert-warning">
+        <!-- ZAFİYET BURADA: Html.Raw() gelen veriyi encode etmeden doğrudan tarayıcıya basar -->
+        Aranan Kelime: <strong>@Html.Raw(ViewBag.Keyword)</strong> 
+    </div>
+}
+
+<div class="mt-5 p-3 bg-light border">
+    <strong>Test Payload:</strong> <code>&lt;script&gt;alert('Reflected XSS!')&lt;/script&gt;</code>
+</div>

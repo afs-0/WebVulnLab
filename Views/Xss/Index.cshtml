@@ -1,0 +1,28 @@
+@{
+    ViewData["Title"] = "XSS Senaryoları";
+}
+
+<h2>Cross-Site Scripting (XSS) Lab</h2>
+<p>Lütfen test etmek istediğiniz senaryoyu seçin:</p>
+
+<div class="row mt-4">
+    <div class="col-md-5 mb-3">
+        <div class="card border-danger">
+            <div class="card-body">
+                <h5 class="card-title text-danger">Reflected XSS</h5>
+                <p class="card-text">Kullanıcıdan alınan veri (örn. arama kutusu), anında ve kaydedilmeden ekrana yansıtılır.</p>
+                <a href="/Xss/Reflected" class="btn btn-outline-danger">Senaryoyu Başlat</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-5 mb-3">
+        <div class="card border-danger">
+            <div class="card-body">
+                <h5 class="card-title text-danger">Stored XSS</h5>
+                <p class="card-text">Zararlı kod veritabanına (bu örnekte listeye) kaydedilir ve sayfaya giren herkesi etkiler.</p>
+                <a href="/Xss/Stored" class="btn btn-outline-danger">Senaryoyu Başlat</a>
+            </div>
+        </div>
+    </div>
+</div>

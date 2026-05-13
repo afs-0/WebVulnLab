@@ -1,0 +1,29 @@
+@model List<string>
+@{
+    ViewData["Title"] = "Stored XSS Testi";
+}
+
+<h3>Stored XSS Senaryosu (Ziyaretçi Defteri)</h3>
+<hr />
+
+<form action="/Xss/Stored" method="post" class="mb-4">
+    <div class="form-group mb-2">
+        <textarea name="newComment" class="form-control w-50" rows="3" placeholder="Yorumunuzu bırakın..."></textarea>
+    </div>
+    <button type="submit" class="btn btn-success">Yorum Ekle</button>
+</form>
+
+<h4>Gelen Yorumlar</h4>
+<ul class="list-group w-50">
+    @foreach (var comment in Model)
+    {
+        <li class="list-group-item">
+            <!-- ZAFİYET BURADA: Kaydedilen veri, korunmasız bir şekilde ekrana basılıyor -->
+            @Html.Raw(comment)
+        </li>
+    }
+</ul>
+
+<div class="mt-5 p-3 bg-light border">
+    <strong>Test Payload:</strong> <code>&lt;img src="x" onerror="alert('Stored XSS Kalıcı Olarak Çalıştı!')"&gt;</code>
+</div>
