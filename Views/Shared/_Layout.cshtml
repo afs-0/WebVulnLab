@@ -4,38 +4,49 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Web Vulnerability Lab</title>
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
-<body>
+<!-- Tüm sayfayı kaplayan bir Flex sütunu (min-vh-100) -->
+<body class="d-flex flex-column min-vh-100 m-0">
+    
+    <!-- ÜST BİLGİ (HEADER) -->
     <header class="bg-dark text-white p-3">
-        <h4>🛡️ Web Vulnerability Lab</h4>
+        <h5 class="m-0">🛡️ Web Vulnerability Lab</h5>
     </header>
 
-    <div class="container-fluid">
-        <div class="row" style="min-height: 90vh;">
-            <!-- SOL MENÜ SIDEBAR -->
+    <!-- ANA İSKELET (Ekranın geri kalanını doldurur: flex-grow-1) -->
+    <div class="container-fluid d-flex flex-grow-1 p-0">
+        <div class="row w-100 m-0 flex-grow-1">
+            
+            <!-- SOL MENÜ (SIDEBAR) - Aşağıya kadar uzanır -->
             <nav class="col-md-2 bg-light p-3 border-end">
                 <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark fw-bold" href="/">Ana Sayfa</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" href="/xss">Cross-Site Scripting (XSS)</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" href="#">Broken Access Control</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" href="#">Security Misconfiguration</a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link text-dark fw-bold" href="/">Ana Sayfa</a></li>
+                    <li class="nav-item"><a class="nav-link text-dark fw-bold" href="/Xss">Cross-Site Scripting (XSS)</a></li>
+                    <li class="nav-item"><a class="nav-link text-secondary" href="#">Broken Access Control</a></li>
+                    <li class="nav-item"><a class="nav-link text-secondary" href="#">Security Misconfiguration</a></li>
+                    <li class="nav-item"><a class="nav-link text-secondary" href="#">Software Supply Chain Failures</a></li>
+                    <li class="nav-item"><a class="nav-link text-secondary" href="#">Cryptographic Failures</a></li>
                 </ul>
             </nav>
 
-            <!-- ANA İÇERİK ALANI -->
-            <main class="col-md-10 p-4">
-                @RenderBody()
+            <!-- SAĞ İÇERİK ALANI -->
+            <main class="col-md-10 d-flex flex-column p-0">
+                
+                <!-- Değişen Sayfa İçerikleri Buraya Gelir -->
+                <div class="p-4 flex-grow-1">
+                    @RenderBody()
+                </div>
+                
+                <!-- FOOTER (Her sayfanın en altına otomatik yapışır: mt-auto) -->
+                <footer class="border-top py-3 bg-light text-center text-muted mt-auto">
+                    <div class="container-fluid">
+                        <span class="fw-bold">&copy; @DateTime.Now.Year - Web Vulnerability Lab</span> <br />
+                        <small><em>Developed by afsec.</em></small>
+                    </div>
+                </footer>
+
             </main>
         </div>
     </div>

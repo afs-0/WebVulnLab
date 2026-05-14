@@ -1,0 +1,28 @@
+@model List<string>
+@{ ViewData["Title"] = "Attribute XSS"; }
+
+<h3 class="text-danger">Attribute-Based Stored XSS</h3>
+<p class="text-muted">Html.Raw kullanılmadı, @@ kullanıldı. Ancak verinin <code>href=""</code> içine basıldığı ve URL'in http ile başlayıp başlamadığının kontrol edilmesi unutuldu.</p>
+<hr />
+
+<form method="post" class="mb-4">
+    <input type="text" name="newLink" class="form-control w-50" placeholder="Sosyal medya profil linkiniz..." />
+    <button type="submit" class="btn btn-outline-danger mt-2">Link Ekle</button>
+</form>
+
+<ul class="list-group w-50">
+    @foreach (var link in Model)
+    {
+        <li class="list-group-item">
+            <!-- ZAFİYET BURADA: link değişkeni doğrudan href içine basılıyor. -->
+            <a href="@link" class="btn btn-danger btn-sm">Profilime Git</a>
+            <span class="ms-2 text-muted">@link</span>
+        </li>
+    }
+</ul>
+
+<div class="mt-4 p-3 bg-light border">
+    <strong>Test Payload:</strong> <br>
+    <code>javascript:alert('Zararlı kod HTML Attribute içinden çalıştı!')</code><br>
+    <small class="text-muted">Yukarıdaki kodu ekleyip "Profilime Git" butonuna tıklayın.</small>
+</div>

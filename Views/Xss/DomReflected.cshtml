@@ -1,0 +1,29 @@
+@{ ViewData["Title"] = "DOM XSS"; }
+
+<h3 class="text-danger">DOM-Based Reflected XSS</h3>
+<p class="text-muted">Backend tarafı güvenli, ancak Frontend tarafında <code>innerHTML</code> kullanıldığı için zafiyet var.</p>
+<hr />
+
+<form method="get">
+    <input type="text" name="searchKeyword" class="form-control w-50" placeholder="Ara..." />
+    <button type="submit" class="btn btn-danger mt-2">Ara</button>
+</form>
+
+<!-- JS'in veriyi basacağı boş kutu -->
+<div id="sonucAlani" class="mt-4 w-50"></div>
+
+<script>
+    // ASP.NET'ten JS'e veriyi Json.Serialize ile aktarıyoruz.
+    var arananKelime = @Html.Raw(Json.Serialize(ViewBag.Keyword)); 
+    
+    if(arananKelime) {
+        // ZAFİYET BURADA: textContent yerine innerHTML kullanıldı.
+        var htmlCiktisi = "<div class='alert alert-danger'>Bulunan: " + arananKelime + "</div>";
+        document.getElementById('sonucAlani').innerHTML = htmlCiktisi;
+    }
+</script>
+
+<div class="mt-4 p-3 bg-light border">
+    <strong>Test Payload:</strong><br>
+    <code>&lt;img src="x" onerror="alert('DOM XSS Tetiklendi!')"&gt;</code>
+</div>

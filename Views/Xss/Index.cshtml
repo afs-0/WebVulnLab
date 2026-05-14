@@ -15,8 +15,8 @@
             <div class="card-body">
                 <p>Kullanıcıdan alınan veri doğrudan ekrana yansıtılır.</p>
                 <div class="d-grid gap-2">
-                    <a href="/Xss/ReflectedVulnerable" class="btn btn-dark btn-outline-danger">Zafiyetli Versiyon (Html.Raw)</a>
-                    <a href="/Xss/ReflectedSecure" class="btn btn-dark btn-outline-primary">Güvenli Versiyon (Output Encoding)</a>
+                    <a href="/Xss/ReflectedVulnerable" class="btn btn-outline-danger">Zafiyetli Versiyon (Html.Raw)</a>
+                    <a href="/Xss/ReflectedSecure" class="btn btn-outline-primary">Güvenli Versiyon (Output Encoding)</a>
                 </div>
             </div>
         </div>
@@ -31,9 +31,31 @@
             <div class="card-body">
                 <p>Veri veritabanına (listeye) kaydedilir ve sayfaya giren herkese yansıtılır.</p>
                 <div class="d-grid gap-2">
-                    <a href="/Xss/StoredVulnerable" class="btn btn-dark btn-outline-danger">Zafiyetli Versiyon (Html.Raw)</a>
-                    <a href="/Xss/StoredSecure" class="btn btn-dark btn-outline-primary">Güvenli Versiyon (Output Encoding)</a>
+                    <a href="/Xss/StoredVulnerable" class="btn btn-outline-danger">Zafiyetli Versiyon (Html.Raw)</a>
+                    <a href="/Xss/StoredSecure" class="btn btn-outline-primary">Güvenli Versiyon (Output Encoding)</a>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Unutulan JS Çıktısı (DOM XSS) -->
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-header text-dark fw-bold">DOM-Based XSS (JS Hatası)</div>
+            <div class="card-body">
+                <p>Yazılımcı Html.Raw kullanmadı ama JavaScript tarafında güvenliği sağlamayı unuttu.</p>
+                <a href="/Xss/DomReflected" class="btn btn-outline-danger w-100">Senaryoyu Başlat</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Unutulan URL Doğrulaması (Attribute XSS) -->
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-header text-dark fw-bold">Attribute Stored XSS (URL Hatası)</div>
+            <div class="card-body">
+                <p>Yazılımcı Html.Raw kullanmadı ama girilen URL'in güvenli olduğunu kontrol etmeyi unuttu.</p>
+                <a href="/Xss/StoredAttribute" class="btn btn-outline-danger w-100">Senaryoyu Başlat</a>
             </div>
         </div>
     </div>

@@ -5,9 +5,10 @@ namespace WebVulnLab.Controllers
 {
     public class XssController : Controller
     {
-        // Tüm XSS sekmelerinde ortak kullanılacak veritabanı simülasyonu
+        // Stored XSS sekmelerinde kullanılacak veritabanı simülasyonu listeleri
         private static List<string> _comments = new List<string> { "Siteniz çok güzel olmuş!" };
-
+        private static List<string> _userLinks = new List<string> { "https://github.com" };
+        
         // XSS ANA MENÜSÜ
         public IActionResult Index()
         {
@@ -59,6 +60,29 @@ namespace WebVulnLab.Controllers
                 _comments.Add(newComment);
             
             return RedirectToAction("StoredSecure");
+        }
+
+        // --- 3. DOM-BASED REFLECTED XSS (JS innerHTML hatası) ---
+        public IActionResult DomReflected(string searchKeyword)
+        {
+            ViewBag.Keyword = searchKeyword;
+            return View();
+        }
+
+        // --- 4. ATTRIBUTE-BASED STORED XSS (URL Doğrulama Unutulması) ---
+        [HttpGet]
+        public IActionResult StoredAttribute()
+        {
+            return View(_userLinks);
+        }
+
+        [HttpPost]
+        public IActionResult StoredAttribute(string newLink)
+        {
+            if (!string.IsNullOrEmpty(newLink))
+                _userLinks.Add(newLink); // Link geçerli mi diye kontrol etmeyi UNUTTUK!
+    
+            return RedirectToAction("StoredAttribute");
         }
     }
 }
