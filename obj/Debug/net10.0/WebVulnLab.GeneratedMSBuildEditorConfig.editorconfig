@@ -42,12 +42,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWHNzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Administrator/Desktop/WebLab/WebVulnLab/Views/Xss/Reflected.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWHNzXFJlZmxlY3RlZC5jc2h0bWw=
+[C:/Users/Administrator/Desktop/WebLab/WebVulnLab/Views/Xss/ReflectedSecure.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWHNzXFJlZmxlY3RlZFNlY3VyZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Administrator/Desktop/WebLab/WebVulnLab/Views/Xss/Stored.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWHNzXFN0b3JlZC5jc2h0bWw=
+[C:/Users/Administrator/Desktop/WebLab/WebVulnLab/Views/Xss/ReflectedVulnerable.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWHNzXFJlZmxlY3RlZFZ1bG5lcmFibGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Administrator/Desktop/WebLab/WebVulnLab/Views/Xss/StoredSecure.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWHNzXFN0b3JlZFNlY3VyZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Administrator/Desktop/WebLab/WebVulnLab/Views/Xss/StoredVulnerable.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWHNzXFN0b3JlZFZ1bG5lcmFibGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Administrator/Desktop/WebLab/WebVulnLab/Views/_ViewImports.cshtml]

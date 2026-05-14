@@ -5,39 +5,60 @@ namespace WebVulnLab.Controllers
 {
     public class XssController : Controller
     {
-        // Stored XSS senaryosu için geçici (In-Memory) veritabanı simülasyonu
-        private static List<string> _comments = new List<string> { "Harika bir site olmuş!" };
+        // Tüm XSS sekmelerinde ortak kullanılacak veritabanı simülasyonu
+        private static List<string> _comments = new List<string> { "Siteniz çok güzel olmuş!" };
 
-        // 1. XSS Senaryoları Seçim Ekranı
+        // XSS ANA MENÜSÜ
         public IActionResult Index()
         {
             return View();
         }
 
-        // 2. Reflected XSS Ekranı
-        [HttpGet]
-        public IActionResult Reflected(string searchKeyword)
+        // --- 1. REFLECTED XSS SENARYOLARI ---
+
+        public IActionResult ReflectedVulnerable(string searchKeyword)
         {
-            // Kullanıcıdan alınan veriyi doğrudan View'a gönderiyoruz
             ViewBag.Keyword = searchKeyword;
             return View();
         }
 
-        // 3. Stored XSS Ekranı (Hem Gösterme Hem Ekleme)
+        public IActionResult ReflectedSecure(string searchKeyword)
+        {
+            ViewBag.Keyword = searchKeyword;
+            return View();
+        }
+
+
+        // --- 2. STORED XSS SENARYOLARI ---
+
         [HttpGet]
-        public IActionResult Stored()
+        public IActionResult StoredVulnerable()
         {
             return View(_comments);
         }
 
         [HttpPost]
-        public IActionResult Stored(string newComment)
+        public IActionResult StoredVulnerable(string newComment)
         {
             if (!string.IsNullOrEmpty(newComment))
-            {
-                _comments.Add(newComment); // Kötü niyetli kodu listeye kaydediyoruz
-            }
-            return RedirectToAction("Stored");
+                _comments.Add(newComment);
+            
+            return RedirectToAction("StoredVulnerable");
+        }
+
+        [HttpGet]
+        public IActionResult StoredSecure()
+        {
+            return View(_comments);
+        }
+
+        [HttpPost]
+        public IActionResult StoredSecure(string newComment)
+        {
+            if (!string.IsNullOrEmpty(newComment))
+                _comments.Add(newComment);
+            
+            return RedirectToAction("StoredSecure");
         }
     }
 }

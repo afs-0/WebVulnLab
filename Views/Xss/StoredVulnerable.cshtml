@@ -1,0 +1,19 @@
+@model List<string>
+@{ ViewData["Title"] = "Zafiyetli Stored XSS"; }
+
+<h3 class="text-danger">Stored XSS - Zafiyetli</h3>
+<hr />
+
+<form action="/Xss/StoredVulnerable" method="post" class="mb-4">
+    <textarea name="newComment" class="form-control w-50 mb-2" rows="2" placeholder="Yorum ekle..."></textarea>
+    <button type="submit" class="btn btn-danger">Yorum Ekle</button>
+</form>
+
+<ul class="list-group w-50">
+    @foreach (var comment in Model)
+    {
+        <!-- ZAFİYET BURADA -->
+        <li class="list-group-item">@Html.Raw(comment)</li>
+    }
+</ul>
+<p class="mt-3"><strong>Test Payload:</strong> <code>&lt;img src="x" onerror="alert('Kalıcı XSS!')"&gt;</code></p>

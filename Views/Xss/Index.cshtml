@@ -3,25 +3,37 @@
 }
 
 <h2>Cross-Site Scripting (XSS) Lab</h2>
-<p>Lütfen test etmek istediğiniz senaryoyu seçin:</p>
+<p>Test etmek istediğiniz senaryonun zafiyetli veya korumalı versiyonunu seçin:</p>
 
 <div class="row mt-4">
-    <div class="col-md-5 mb-3">
-        <div class="card border-danger">
+    <!-- Reflected XSS Kartı -->
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-header text-dark fw-bold">
+                Reflected XSS
+            </div>
             <div class="card-body">
-                <h5 class="card-title text-danger">Reflected XSS</h5>
-                <p class="card-text">Kullanıcıdan alınan veri (örn. arama kutusu), anında ve kaydedilmeden ekrana yansıtılır.</p>
-                <a href="/Xss/Reflected" class="btn btn-outline-danger">Senaryoyu Başlat</a>
+                <p>Kullanıcıdan alınan veri doğrudan ekrana yansıtılır.</p>
+                <div class="d-grid gap-2">
+                    <a href="/Xss/ReflectedVulnerable" class="btn btn-dark btn-outline-danger">Zafiyetli Versiyon (Html.Raw)</a>
+                    <a href="/Xss/ReflectedSecure" class="btn btn-dark btn-outline-primary">Güvenli Versiyon (Output Encoding)</a>
+                </div>
             </div>
         </div>
     </div>
     
-    <div class="col-md-5 mb-3">
-        <div class="card border-danger">
+    <!-- Stored XSS Kartı -->
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-header text-dark fw-bold">
+                Stored XSS
+            </div>
             <div class="card-body">
-                <h5 class="card-title text-danger">Stored XSS</h5>
-                <p class="card-text">Zararlı kod veritabanına (bu örnekte listeye) kaydedilir ve sayfaya giren herkesi etkiler.</p>
-                <a href="/Xss/Stored" class="btn btn-outline-danger">Senaryoyu Başlat</a>
+                <p>Veri veritabanına (listeye) kaydedilir ve sayfaya giren herkese yansıtılır.</p>
+                <div class="d-grid gap-2">
+                    <a href="/Xss/StoredVulnerable" class="btn btn-dark btn-outline-danger">Zafiyetli Versiyon (Html.Raw)</a>
+                    <a href="/Xss/StoredSecure" class="btn btn-dark btn-outline-primary">Güvenli Versiyon (Output Encoding)</a>
+                </div>
             </div>
         </div>
     </div>
