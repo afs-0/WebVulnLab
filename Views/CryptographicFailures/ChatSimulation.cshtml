@@ -1,0 +1,148 @@
+@using YourAppName.Controllers
+@{
+    ViewData["Title"] = "Ağ Dinleyicisi Sohbeti";
+    var history = ViewBag.History as List<ChatMessage>;
+    bool isKeyLeaked = ViewBag.IsKeyLeaked;
+    string hardcodedKey = ViewBag.HardcodedKey;
+}
+
+<div class="container-fluid mt-2">
+    <div class="row">
+        <!-- ÜST YARI: ALICE VE BOB SOHBET ARAYÜZÜ -->
+        <div class="col-12 mb-3">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">💬 Mesajlaşma Uygulaması (Kullanıcı Görünümü)</h5>
+                    <form action="/A04/ClearChat" method="post" class="m-0">
+                        <button type="submit" class="btn btn-sm btn-outline-light">Sohbeti Temizle</button>
+                    </form>
+                </div>
+                <div class="card-body" style="height: 300px; overflow-y: auto; background-color: #f8f9fa;">
+                    @foreach (var msg in history)
+                    {
+                        bool isAlice = msg.Sender == "Alice";
+                        <div class="d-flex justify-content-@(isAlice ? "start" : "end") mb-2">
+                            <div class="p-2 rounded @(isAlice ? "bg-white border" : "bg-success text-white")" style="max-width: 70%;">
+                                <strong>@msg.Sender:</strong> @msg.OriginalText
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="card-footer bg-white">
+                    <form action="/A04/Chat" method="post" class="row gx-2">
+                        <div class="col-auto">
+                            <select name="sender" class="form-select">
+                                <option value="Alice">Alice</option>
+                                <option value="Bob">Bob</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <input type="text" name="messageText" class="form-control" placeholder="Mesajınızı yazın..." required autocomplete="off">
+                        </div>
+                        <div class="col-auto">
+                            <select name="transportMode" class="form-select fw-bold text-primary">
+                                <option value="Plaintext">Düz Metin (Güvensiz HTTP)</option>
+                                <option value="Base64">Base64 (Kodlama/Gizleme)</option>
+                                <option value="Aes">AES-GCM (Gerçek Şifreleme)</option>
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-primary">Gönder</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- ALT YARI: WIRESHARK PACKET SNIFFER GÖRÜNÜMÜ -->
+        <div class="col-12">
+            <div class="card shadow border-dark">
+                <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">🦈 Wireshark Paket Dinleyicisi (MITM Görünümü)</h5>
+                    @if (!isKeyLeaked)
+                    {
+                        <form action="/A04/LeakKey" method="post" class="m-0">
+                            <button type="submit" class="btn btn-sm btn-danger">Gömülü Şifreleme Anahtarını Sızdır (Kaynak Kodu İncele)</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">Anahtar Sızdırıldı: @hardcodedKey</span>
+                    }
+                </div>
+                <div class="card-body p-0" style="background-color: #1e1e1e; height: 350px; overflow-y: auto;">
+                    <table class="table table-dark table-sm table-borderless mb-0" style="font-family: 'Courier New', Courier, monospace; font-size: 14px;">
+                        <thead style="border-bottom: 1px solid #444;">
+                            <tr>
+                                <th style="width: 8%">No.</th>
+                                <th style="width: 12%">Kaynak</th>
+                                <th style="width: 15%">Protokol / Mod</th>
+                                <th>Paket Yükü (Payload)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < history.Count; i++)
+                            {
+                                var msg = history[i];
+                                <tr style="border-bottom: 1px solid #333;">
+                                    <td class="text-secondary">@(i + 1)</td>
+                                    <td class="text-info">@msg.Sender</td>
+                                    <td>
+                                        @if (msg.Mode == TransportMode.Plaintext) { <span class="text-danger">HTTP (Plaintext)</span> }
+                                        else if (msg.Mode == TransportMode.Base64) { <span class="text-warning">HTTP (Base64)</span> }
+                                        else { <span class="text-success">HTTPS/TLS (AES)</span> }
+                                    </td>
+                                    <td>
+                                        <span class="text-light" id="payload-@i">@msg.SniffedText</span>
+                                        
+                                        @if (msg.Mode == TransportMode.Base64)
+                                        {
+                                            <button type="button" class="btn btn-xs btn-outline-warning ms-2 py-0 px-1" onclick="decodeBase64('payload-@i', '@msg.SniffedText')" style="font-size: 0.75rem;">
+                                                Oto-Çöz (Auto-Decode)
+                                            </button>
+                                            <span id="decoded-@i" class="text-warning ms-2" style="display:none;"></span>
+                                        }
+                                        else if (msg.Mode == TransportMode.Aes)
+                                        {
+                                            if (isKeyLeaked)
+                                            {
+                                                <div class="mt-1">
+                                                    <span class="badge bg-danger text-white">Sızdırılan Anahtarla Çözüldü:</span>
+                                                    <span class="text-danger fw-bold">@msg.OriginalText</span>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-secondary ms-2" style="font-size: 0.8em;">(Anahtar olmadan anlamsız çöp veri)</span>
+                                            }
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                            @if (!history.Any())
+                            {
+                                <tr>
+                                    <td colspan="4" class="text-center text-secondary py-4">Ağ dinleniyor... Bekleniyor...</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Base64 Metni JavaScript ile Canlı Olarak Çözen Fonksiyon
+    function decodeBase64(elementId, base64Text) {
+        try {
+            var decoded = atob(base64Text);
+            var span = document.getElementById(elementId.replace('payload', 'decoded'));
+            span.innerHTML = "=> <strong>" + decoded + "</strong> (Kodlama Şifreleme Değildir!)";
+            span.style.display = 'inline';
+        } catch (e) {
+            alert("Geçersiz Base64 verisi!");
+        }
+    }
+</script>

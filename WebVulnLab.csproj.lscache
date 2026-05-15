@@ -56,8 +56,11 @@ TemporaryDependencyNodeTargetIdentifier=net10.0
 
 [sourceFiles]
 Controllers/
+ BrokenAccessController.cs
+ CryptographicFailuresController.cs
  HomeController.cs
  SecurityMisconfigurationController.cs
+ SoftwareSupplyChainController.cs
  XssController.cs
 Models/ErrorViewModel.cs
 obj/Debug/net10.0/
@@ -410,6 +413,12 @@ Program.cs
 obj/Debug/net10.0/WebVulnLab.GeneratedMSBuildEditorConfig.editorconfig
 
 [additionalFiles]
+Views/BrokenAccessControl/
+ Index.cshtml
+ Posts.cshtml
+Views/CryptographicFailures/
+ ChatSimulation.cshtml
+ Index.cshtml
 Views/Home/
  Index.cshtml
  Privacy.cshtml
@@ -421,6 +430,9 @@ Views/Shared/
  Error.cshtml
  _Layout.cshtml
  _ValidationScriptsPartial.cshtml
+Views/SoftwareSupplyChain/
+ Index.cshtml
+ Simulation.cshtml
 Views/Xss/
  DomReflected.cshtml
  Index.cshtml
@@ -434,6 +446,12 @@ Views/
  _ViewStart.cshtml
 
 [dynamicFiles]
+Views/BrokenAccessControl/
+ Index.cshtml
+ Posts.cshtml
+Views/CryptographicFailures/
+ ChatSimulation.cshtml
+ Index.cshtml
 Views/Home/
  Index.cshtml
  Privacy.cshtml
@@ -445,6 +463,9 @@ Views/Shared/
  Error.cshtml
  _Layout.cshtml
  _ValidationScriptsPartial.cshtml
+Views/SoftwareSupplyChain/
+ Index.cshtml
+ Simulation.cshtml
 Views/Xss/
  DomReflected.cshtml
  Index.cshtml

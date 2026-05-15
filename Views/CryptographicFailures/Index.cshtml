@@ -1,0 +1,29 @@
+@{
+    ViewData["Title"] = "Kriptografik Hatalar";
+}
+
+<div class="container mt-4">
+    <h2>Kriptografik Hatalar (Cryptographic Failures)</h2>
+    <hr />
+    
+    <div class="alert alert-warning">
+        <strong>Kusur:</strong> Hassas verilerin (şifreler, kredi kartları, özel mesajlar) aktarım halindeyken (Data in Transit) veya beklemedeyken (Data at Rest) düzgün bir şekilde şifrelenmemesi durumudur. Eski algoritmalar, zayıf anahtarlar veya şifreleme yerine sadece "kodlama" (encoding) kullanmak en yaygın hatalardandır.
+    </div>
+
+    <h4>Senaryo: "Ağ Dinleyicisi" (Network Sniffer) Sohbeti</h4>
+    <p>
+        Bu simülasyonda, Alice ve Bob'un mesajlaşma uygulamasını test edeceksiniz. Ancak sıradan bir kullanıcı gibi değil, aradaki ağı dinleyen bir <strong>"Ortadaki Adam" (Man-in-the-Middle - MITM)</strong> gözünden!
+    </p>
+    <ul>
+        <li><strong>Düz Metin (HTTP):</strong> Veriler hiçbir koruma olmadan ağdan geçer.</li>
+        <li><strong>Base64 (Obfuscation):</strong> Geliştiriciler bazen veriyi Base64 ile kodlayıp karmaşık hale getirerek "şifrelediklerini" sanırlar. Ancak bu bir şifreleme değil, sadece formattır.</li>
+        <li><strong>AES-GCM (Gerçek Şifreleme):</strong> Veri kriptografik bir anahtarla kilitlenir. Anahtar olmadan anlamsız bir çöp verisi (garbage) olarak görünür.</li>
+    </ul>
+
+    <div class="card mt-4 border-dark">
+        <div class="card-header bg-dark text-white">Simülasyon Ortamı</div>
+        <div class="card-body">
+            <a href="/A04/Chat" class="btn btn-primary">Sohbet Simülasyonunu Başlat</a>
+        </div>
+    </div>
+</div>

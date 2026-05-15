@@ -1,0 +1,80 @@
+@model IEnumerable<YourAppName.Controllers.BlogPost>
+@{
+    // Şablonu kullanabilirsiniz, bağımsız bir sayfa isterseniz Layout = null; yapın.
+    ViewData["Title"] = "Şirket Gönderileri";
+}
+
+<div class="container mt-4">
+    <h3>Şirket İçi Gönderiler</h3>
+    <p class="text-muted">Giriş Yapan Rol: <strong class="text-danger">@ViewBag.CurrentUserRole</strong></p>
+
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-danger font-weight-bold shadow-sm">
+            @TempData["Message"]
+        </div>
+    }
+
+    <table class="table table-bordered table-striped mt-3">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Başlık</th>
+                <th>İçerik</th>
+                <th>İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if(!Model.Any())
+            {
+                <tr><td colspan="4" class="text-center">Tüm veriler silindi! Uygulamayı yeniden başlatın.</td></tr>
+            }
+            
+            @foreach (var post in Model)
+            {
+                <tr>
+                    <td>@post.Id</td>
+                    <td>@post.Title</td>
+                    <td>@post.Content</td>
+                    <td>
+                        <!-- GÜVENLİK ZAFİYETİ BAŞLANGICI:
+                             Geliştirici sadece arayüzde butonu gizliyor. 
+                             Standart kullanıcı isen bu butonu GÖREMEZSİN. -->
+                        @if (ViewBag.CurrentUserRole == "Admin")
+                        {
+                            <form action="/A01/Posts/Delete/@post.Id" method="post">
+                                <button type="submit" class="btn btn-sm btn-danger">Sil</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <span class="text-muted"><small>Yetkiniz Yok</small></span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <hr class="my-5" />
+
+    <!-- HACKER SİMÜLASYONU BÖLÜMÜ -->
+    <div class="card border-dark bg-light shadow">
+        <div class="card-header bg-dark text-white">
+            <h5 class="mb-0">🕵️‍♂️ Saldırgan Simülasyonu (Burp Suite / Postman / cURL)</h5>
+        </div>
+        <div class="card-body">
+            <p>Standart kullanıcı olarak tabloda "Sil" butonunu göremiyorsunuz. Ancak, bir saldırgan HTTP trafiğini izleyerek yöneticilerin <code>/A01/Posts/Delete/{id}</code> rotasına POST isteği attığını keşfedebilir.</p>
+            <p>Saldırgan konsolu veya bir araç üzerinden aşağıdaki POST isteğini manuel olarak gönderirse ne olur? (ID: 5 olan gönderiyi silmeyi deneyelim)</p>
+            
+            <code>POST /A01/Posts/Delete/5 HTTP/1.1</code><br />
+            <code>Host: localhost</code><br /><br />
+
+            <form action="/A01/Posts/Delete/5" method="post">
+                <button type="submit" class="btn btn-danger">
+                    Manuel POST İsteği Gönder (Zafiyeti Sömür)
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,36 @@
+@{
+    ViewData["Title"] = "Yazılım Tedarik Zinciri Hataları";
+}
+
+<div class="container mt-4">
+    <h2>Yazılım Tedarik Zinciri Hataları (Software Supply Chain Failures)</h2>
+    <hr />
+    
+    <div class="alert alert-warning">
+        <strong>Kusur:</strong> Modern uygulamalar, işleri hızlandırmak için genellikle yüzlerce üçüncü taraf (open-source) kütüphane ve bileşen kullanır. Eğer bu kütüphanelerden biri ele geçirilirse (veya baştan kötü niyetle yazılmışsa), uygulamanız da ele geçirilmiş olur. Buna "Tedarik Zinciri Saldırısı" denir.
+    </div>
+
+    <h4>Senaryo: "Truva Atı" (Trojan Horse)</h4>
+    <p>
+        Sisteminizde bir CSV yükleme özelliği geliştiriyorsunuz. Tekerleği yeniden icat etmemek için internette popüler olan, "SuperCsvParser" adında bir açık kaynaklı kütüphaneyi projenize dahil ettiniz.
+    </p>
+    <p>
+        Bu kütüphane <strong>gerçekten çok iyi çalışıyor</strong>. Dosyalarınızı sıfır hata ile içeri aktarıyor. Ancak bilmediğiniz şey şu: Bu kütüphanenin içine yerleştirilmiş kötü niyetli bir kod, işlenen her verinin bir kopyasını sessizce saldırganın sunucusuna (C2 Server) gönderiyor. İşler tıkırında göründüğü için kimse şüphelenmiyor.
+    </p>
+
+    <div class="card mt-4 border-dark">
+        <div class="card-header bg-dark text-white">
+            Simülasyon Ortamı
+        </div>
+        <div class="card-body">
+            <p>Bir sonraki sayfada ekran ikiye bölünecektir:</p>
+            <ul>
+                <li><strong>Sol Taraf:</strong> Geliştiricinin/Kullanıcının gördüğü normal sistem ve yükleme ekranı.</li>
+                <li><strong>Sağ Taraf:</strong> Saldırganın ekranı (C2 Sunucusu).</li>
+            </ul>
+            <a href="/A03/Simulation" class="btn btn-primary">
+                Simülasyonu Başlat
+            </a>
+        </div>
+    </div>
+</div>
