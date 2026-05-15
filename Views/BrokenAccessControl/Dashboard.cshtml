@@ -1,0 +1,176 @@
+@model IEnumerable<YourAppName.Controllers.BlogPost>
+@{
+    ViewData["Title"] = "Kontrol Paneli";
+    string role = ViewBag.Role;
+    string username = ViewBag.Username;
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <style>
+        .burp-panel { background-color: #1e1e1e; color: #d4d4d4; font-family: monospace; font-size: 13px; }
+        textarea.burp-textarea { background-color: #252526; color: #9cdcfe; border: 1px solid #3c3c3c; width: 100%; height: 250px; padding: 10px; resize: none; outline: none; }
+    </style>
+</head>
+<body class="bg-light pb-5">
+    
+    <!-- ÜST KISIM: NORMAL KULLANICI ARAYÜZÜ -->
+    <nav class="navbar navbar-dark bg-primary mb-4">
+        <div class="container-fluid">
+            <span class="navbar-brand">A01 - Güvenlik Duvarı</span>
+            <div class="text-white">
+                Aktif Kullanıcı: <strong>@username</strong> | Rol: <span class="badge bg-warning text-dark">@role</span>
+                <a href="/A01" class="btn btn-sm btn-danger ms-3">Çıkış Yap</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mb-5">
+        <div class="row">
+            <!-- POST OLUŞTURMA BÖLÜMÜ (Herkes Yapabilir) -->
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-success text-white">Yeni Post Oluştur</div>
+                    <div class="card-body">
+                        <div class="mb-2">
+                            <input type="text" id="newPostTitle" class="form-control" placeholder="Post Başlığı" />
+                        </div>
+                        <!-- Normal form submit yerine, HTTP isteğini hazırlayıp Burp paneline atıyoruz -->
+                        <button onclick="prepareCreateRequest()" class="btn btn-success w-100">Gönderiyi Oluştur</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- POST LİSTESİ VE SİLME BÖLÜMÜ -->
+            <div class="col-md-8">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-dark text-white">Mevcut Postlar</div>
+                    <table class="table table-striped mb-0">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Başlık</th>
+                                <th>Yazar</th>
+                                <th>İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var post in Model)
+                            {
+                                <tr>
+                                    <td>@post.Id</td>
+                                    <td>@post.Title</td>
+                                    <td>@post.Author</td>
+                                    <td>
+                                        @if (role == "Admin")
+                                        {
+                                            <!-- Sadece adminlerin UI'ında bu buton var -->
+                                            <button onclick="prepareDeleteRequest(@post.Id)" class="btn btn-sm btn-danger">Sil</button>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted small">Yetkiniz Yok</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ALT KISIM: MİNİ BURP SUITE PANELİ -->
+    <div class="container-fluid fixed-bottom bg-dark p-3 border-top border-secondary">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <h5 class="text-warning mb-0">🕵️ Mini Proxy (Interceptor)</h5>
+            <button onclick="sendRawRequest()" class="btn btn-warning fw-bold">🚀 İsteği İleri Gönder (Forward)</button>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <span class="text-light small">Giden Ham İstek (Düzenlenebilir)</span>
+                <textarea id="rawRequest" class="burp-textarea" spellcheck="false" placeholder="Arayüzden bir butona tıkladığınızda HTTP isteği buraya düşer..."></textarea>
+            </div>
+            <div class="col-md-6">
+                <span class="text-light small">Sunucudan Gelen Ham Cevap</span>
+                <textarea id="rawResponse" class="burp-textarea" spellcheck="false" readonly placeholder="Sunucunun cevabı burada görünür..."></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT: BURP SUITE SİMÜLASYON MANTIĞI -->
+    <script>
+        // Post Oluştur butonuna basılınca HTTP metnini hazırlar
+        function prepareCreateRequest() {
+            const title = document.getElementById('newPostTitle').value;
+            const body = `title=${encodeURIComponent(title)}`;
+            
+            const req = `POST /A01/Create HTTP/1.1\nHost: ${window.location.host}\nContent-Type: application/x-www-form-urlencoded\nCookie: ${document.cookie}\nContent-Length: ${body.length}\n\n${body}`;
+            
+            document.getElementById('rawRequest').value = req;
+            document.getElementById('rawResponse').value = ""; // Önceki cevabı temizle
+        }
+
+        // Sil butonuna basılınca HTTP metnini hazırlar
+        function prepareDeleteRequest(id) {
+            const req = `POST /A01/Delete/${id} HTTP/1.1\nHost: ${window.location.host}\nCookie: ${document.cookie}\n\n`;
+            
+            document.getElementById('rawRequest').value = req;
+            document.getElementById('rawResponse').value = "";
+        }
+
+        // "İsteği İleri Gönder" butonuna basınca metin kutusundaki yazıyı gerçek HTTP isteğine çevirir
+        async function sendRawRequest() {
+            const rawReqText = document.getElementById('rawRequest').value.trim();
+            if (!rawReqText) return alert("Gönderilecek bir istek yok!");
+
+            // 1. İsteği Satırlara Böl ve Metodu/Yolu Bul
+            const lines = rawReqText.split('\n');
+            const firstLine = lines[0].trim().split(' ');
+            if (firstLine.length < 2) return alert("Geçersiz HTTP başlığı");
+
+            const method = firstLine[0]; // GET, POST vs.
+            const path = firstLine[1];   // /A01/Delete/1 vs.
+
+            // 2. Body'yi (Gövde) Bul (Boş satırdan sonraki kısım)
+            const parts = rawReqText.split(/\n\s*\n/);
+            let bodyData = parts.length > 1 ? parts.slice(1).join('\n\n') : undefined;
+
+            // 3. İsteği Gerçekten Fırlat!
+            try {
+                // Not: Tarayıcılar güvenlik gereği "Cookie" header'ını manuel ezdirtmez. 
+                // Bu yüzden fetch() tarayıcıda gerçekten o an hangi oturum açıksa onun çerezini gönderir.
+                // Bu, Broken Access Control senaryomuz için mükemmeldir!
+                const response = await fetch(path, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: (method === 'POST' || method === 'PUT') ? bodyData : undefined
+                });
+
+                // 4. Gelen Cevabı Formatla ve Ekrana Yaz
+                let resText = `HTTP/1.1 ${response.status} ${response.statusText}\n`;
+                for (let [key, value] of response.headers) {
+                    resText += `${key}: ${value}\n`;
+                }
+                const resBody = await response.text();
+                resText += `\n${resBody}`;
+
+                document.getElementById('rawResponse').value = resText;
+
+                // İşlem başarılıysa UI'ı güncellemek için 2 saniye sonra sayfayı yenile
+                if (response.ok) {
+                    setTimeout(() => window.location.reload(), 2000);
+                }
+
+            } catch (error) {
+                document.getElementById('rawResponse').value = `HATA OLUŞTU:\n${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>

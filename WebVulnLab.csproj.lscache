@@ -61,6 +61,7 @@ Controllers/
  HomeController.cs
  SecurityMisconfigurationController.cs
  SoftwareSupplyChainController.cs
+ SupplyChainAdvancedController.cs
  XssController.cs
 Models/ErrorViewModel.cs
 obj/Debug/net10.0/
@@ -414,8 +415,8 @@ obj/Debug/net10.0/WebVulnLab.GeneratedMSBuildEditorConfig.editorconfig
 
 [additionalFiles]
 Views/BrokenAccessControl/
- Index.cshtml
- Posts.cshtml
+ Dashboard.cshtml
+ Login.cshtml
 Views/CryptographicFailures/
  ChatSimulation.cshtml
  Index.cshtml
@@ -433,22 +434,23 @@ Views/Shared/
 Views/SoftwareSupplyChain/
  Index.cshtml
  Simulation.cshtml
-Views/Xss/
- DomReflected.cshtml
- Index.cshtml
- ReflectedSecure.cshtml
- ReflectedVulnerable.cshtml
- StoredAttribute.cshtml
- StoredSecure.cshtml
- StoredVulnerable.cshtml
 Views/
+ SupplyChainAdvanced/Index.cshtml
+ Xss/
+  DomReflected.cshtml
+  Index.cshtml
+  ReflectedSecure.cshtml
+  ReflectedVulnerable.cshtml
+  StoredAttribute.cshtml
+  StoredSecure.cshtml
+  StoredVulnerable.cshtml
  _ViewImports.cshtml
  _ViewStart.cshtml
 
 [dynamicFiles]
 Views/BrokenAccessControl/
- Index.cshtml
- Posts.cshtml
+ Dashboard.cshtml
+ Login.cshtml
 Views/CryptographicFailures/
  ChatSimulation.cshtml
  Index.cshtml
@@ -466,14 +468,15 @@ Views/Shared/
 Views/SoftwareSupplyChain/
  Index.cshtml
  Simulation.cshtml
-Views/Xss/
- DomReflected.cshtml
- Index.cshtml
- ReflectedSecure.cshtml
- ReflectedVulnerable.cshtml
- StoredAttribute.cshtml
- StoredSecure.cshtml
- StoredVulnerable.cshtml
 Views/
+ SupplyChainAdvanced/Index.cshtml
+ Xss/
+  DomReflected.cshtml
+  Index.cshtml
+  ReflectedSecure.cshtml
+  ReflectedVulnerable.cshtml
+  StoredAttribute.cshtml
+  StoredSecure.cshtml
+  StoredVulnerable.cshtml
  _ViewImports.cshtml
  _ViewStart.cshtml
