@@ -1,0 +1,70 @@
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>SunucuMonitör Pro - Kontrol Paneli</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1">SunucuMonitör Pro Konsolu</span>
+            <span class="navbar-text text-danger font-weight-bold">
+                Giriş yapan: SISTEM_YONETICISI
+            </span>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        @if (TempData["Message"] != null)
+        {
+            <div class="alert alert-success border-success border-2 shadow-sm">
+                <strong>Başarılı!</strong> @TempData["Message"]
+            </div>
+        }
+
+        <div class="card border-danger shadow">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0">Kritik Sistemlere Genel Bakış</h4>
+            </div>
+            <div class="card-body">
+                <p>Kök kontrol paneline hoş geldiniz. Buradan, bağlı altyapı üzerinde tam kontrole sahipsiniz.</p>
+                
+                <table class="table table-bordered table-striped mt-3">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Sunucu</th>
+                            <th>Durum</th>
+                            <th>İşlem</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Uretim-VT-01</td>
+                            <td class="text-success">Çevrimiçi</td>
+                            <td><button class="btn btn-sm btn-outline-danger" disabled>Veritabanını Sil</button></td>
+                        </tr>
+                        <tr>
+                            <td>Web-Uygulama-Dugum-A</td>
+                            <td class="text-success">Çevrimiçi</td>
+                            <td><button class="btn btn-sm btn-outline-danger" disabled>Düğümü Yeniden Başlat</button></td>
+                        </tr>
+                        <tr>
+                            <td>GuvenlikDuvari-AgGecidi</td>
+                            <td class="text-warning">Güncelleme Gerekli</td>
+                            <td><button class="btn btn-sm btn-outline-danger" disabled>Kuralları Devre Dışı Bırak</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="alert alert-secondary mt-4 mb-0">
+                    <em>Gerçek dünya senaryosunda, bu sayfaya varsayılan kimlik bilgileriyle ulaşan bir saldırgan sistemi tamamen ele geçirebilir, diğer iç ağlara sızabilir veya hassas verileri çalabilir.</em>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

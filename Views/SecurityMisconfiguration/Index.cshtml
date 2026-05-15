@@ -1,0 +1,30 @@
+@{
+    ViewData["Title"] = "Güvenlik Yanlış Yapılandırması";
+}
+
+<div class="container mt-4">
+    <h2>Güvenlik Yanlış Yapılandırması (Security Misconfiguration)</h2>
+    <hr />
+    
+    <div class="alert alert-warning">
+        <strong>Kusur:</strong> Güvenlik yanlış yapılandırması; güvenlik ayarları düzgün bir şekilde tanımlanmadığında, uygulanmadığında veya sürdürülmediğinde ortaya çıkar. Üçüncü taraf ürünlerde, yönetici konsollarında veya bağlı veritabanlarında bulunan <em>varsayılan kimlik bilgilerini (default credentials)</em> canlı ortama almadan önce değiştirmeyi unutmak çok yaygın bir örnektir.
+    </div>
+
+    <h4>Senaryo</h4>
+    <p>
+        Şirketin yakın zamanda yeni bir üçüncü taraf sunucu izleme paneli (örn. "SunucuMonitör Pro") kurduğunu hayal edin. BT ekibi kurulumu yaptı ancak kurulum kılavuzunda belirtilen son adımı unuttu: <strong>Varsayılan yönetici şifresini değiştirmek.</strong>
+    </p>
+
+    <div class="card mt-4">
+        <div class="card-header bg-dark text-white">
+            Simülasyon Ortamı
+        </div>
+        <div class="card-body">
+            <p>Aşağıdaki yönetim portalına erişmeyi deneyin. <em>İpucu: Dünyadaki en yaygın varsayılan kullanıcı adı ve şifreyi deneyin.</em></p>
+            <!-- A02 rotasına gidecek şekilde ayarlandı -->
+            <a href="/A02/AdminPortalLogin" target="_blank" class="btn btn-primary">
+                SunucuMonitör Pro Girişini Aç
+            </a>
+        </div>
+    </div>
+</div>
